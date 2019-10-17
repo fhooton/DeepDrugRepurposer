@@ -1,3 +1,8 @@
 .ipynb_checkpoints/
 data/
+<<<<<<< HEAD
 supplimentary_data/
+=======
+.DS_Store
+
+>>>>>>> fafe946258f7785281b7413c344635bdef585b3c
