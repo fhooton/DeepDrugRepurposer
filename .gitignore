@@ -3,4 +3,5 @@ pynb_checkpoints/
 data/
 .DS_Store
 dataset_v*
+*.svg
 
