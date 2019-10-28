@@ -48,18 +48,12 @@
 
 
 ![alt_text](images/drug_target_degree.png "image_tooltip")
-
-
-**_Figure 1: The degree distribution of the FoodBank drug-target interaction network. _**
-
 	
 
 A visualization of the networks shows that most drugs are connected in a central component (Fig 2). This shows our negative sampling method could be effective, as we have an average path length of 7.66. If we had a network with many separate components and a small average path length, the sampling technique would be rendered ineffective as we could ensure a long enough distance. The diameter, or longest-shortest path between two nodes, is 22 hops. The outer ring of the network shows drug-target interactions that do not connect to the central connected component.
 
 ![alt_text](images/force_atlas.png "image_tooltip")
 
-
-**_Figure 2: The network layout of the FoodBank drug-target interaction network visualized using the ForceAtlas 2 algorithm. Red nodes represent targets, blue nodes represent drugs, and the node size corresponds with the respective node degree._**
 
 Bibliography
 
