@@ -13,24 +13,6 @@
 * Folder for files to interact with web-server
 
 
-<!----- Conversion time: 2.341 seconds.
-
-
-Using this Markdown file:
-
-1. Cut and paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-   formatting and use a linkchecker before you publish this page.
-
-Conversion notes:
-
-* Docs to Markdown version 1.0β17
-* Mon Oct 28 2019 13:26:48 GMT-0700 (PDT)
-* Source doc: https://docs.google.com/a/husky.neu.edu/open?id=1RLIfgKrGFRxSrEWiZmY6-XfpJ8haBMUOyAxvmJ-Bn3c
-
-
-
 # Summary
 
 	In 2017, the international pharmaceutical industry generated over USD 934 billion in revenue and is expected to grow to over $1,170 billion in 2021. [1] Although people are willing to pay for pharmaceuticals, the cost associated with creating a new, breakthrough drugs are costly and often unsuccessful. Only 12% of drugs that are in clinical phase will be approved for market. [5] Drug development for a single drug costs USD 2.6 billion and 17 years to develop on average. [5] Development regulations drive over 10 percent of this cost, averaging USD 339.3 million dollars. The U.S. Food and Drug Administration (FDA) requires three phases of clinical testing: determining human safety and dosing (phase 1), initial reading of efficacy and side effects (phase 2), and larger clinical trials to determine the safety and efficacy in larger numbers (phase 3). [3] Bypassing any stage in this process could create cost and time savings for drug development and reduce the burden on consumers.
@@ -112,4 +94,3 @@ Bibliography
     [10] Wishart, D. S. _et al._ DrugBank 5.0: a major update to the DrugBank database for 2018. _Nucleic Acids Research_ **46,** (2017).
 
 
-<!-- Docs to Markdown version 1.0β17 -->
