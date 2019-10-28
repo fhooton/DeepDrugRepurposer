@@ -28,26 +28,7 @@ Conversion notes:
 * Docs to Markdown version 1.0β17
 * Mon Oct 28 2019 13:26:48 GMT-0700 (PDT)
 * Source doc: https://docs.google.com/a/husky.neu.edu/open?id=1RLIfgKrGFRxSrEWiZmY6-XfpJ8haBMUOyAxvmJ-Bn3c
-* This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server.
 
-WARNING:
-You have 2 H1 headings. You may want to use the "H1 -> H2" option to demote all headings by one level.
-
------>
-
-
-<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 2.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-<a href="#gdcalert2">alert2</a>
-
-<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
-
-Deep Drug Repurposer
-
-Sarthak Kothari, Noah Demoes, Omair Shafi Ahmed, Forrest Hooton
 
 
 # Summary
@@ -84,10 +65,7 @@ Sarthak Kothari, Noah Demoes, Omair Shafi Ahmed, Forrest Hooton
 
 
 
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/DS-55000.png). Store image on your image server and adjust path/filename if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/DS-55000.png "image_tooltip")
+![alt_text](images/drug_target_degree.png "image_tooltip")
 
 
 **_Figure 1: The degree distribution of the FoodBank drug-target interaction network. _**
@@ -96,12 +74,7 @@ Sarthak Kothari, Noah Demoes, Omair Shafi Ahmed, Forrest Hooton
 
 A visualization of the networks shows that most drugs are connected in a central component (Fig 2). This shows our negative sampling method could be effective, as we have an average path length of 7.66. If we had a network with many separate components and a small average path length, the sampling technique would be rendered ineffective as we could ensure a long enough distance. The diameter, or longest-shortest path between two nodes, is 22 hops. The outer ring of the network shows drug-target interactions that do not connect to the central connected component.
 
-
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/DS-55001.png). Store image on your image server and adjust path/filename if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/DS-55001.png "image_tooltip")
+![alt_text](images/force_atlas.png "image_tooltip")
 
 
 **_Figure 2: The network layout of the FoodBank drug-target interaction network visualized using the ForceAtlas 2 algorithm. Red nodes represent targets, blue nodes represent drugs, and the node size corresponds with the respective node degree._**
