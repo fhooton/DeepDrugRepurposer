@@ -52,7 +52,7 @@ Flask and mySQL.
 
 # Preliminary Results
 
-	The preliminary results can be found at this link. The web platform is working and is linked to 
+The preliminary results can be found at this link. The web platform is working and is linked to 
 our database. If you input a drug that is a pre-approved drug, aka it exists in the database than 
 the website will return a potential drug. If that drug does not exist then it will return an error 
 Message. 
