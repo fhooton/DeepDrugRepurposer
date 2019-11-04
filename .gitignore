@@ -1,0 +1,8 @@
+.ipynb_checkpoints/
+pynb_checkpoints/
+data/
+supplimentary_data/
+.DS_Store
+dataset_v*
+*.svg
+
