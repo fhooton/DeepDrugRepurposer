@@ -2,6 +2,7 @@
 import flask
 import io
 import pickle
+from flask_cors import CORS
 
 import numpy as np
 import tensorflow as tf
@@ -11,10 +12,11 @@ from keras.models import load_model
 
 # initialize our Flask application and the Keras model
 app = flask.Flask(__name__)
+CORS(app)
 model = None
 graph = None
 drugs = None
-targets = None 
+targets = None
 ts = None
 ds = None
 
@@ -33,7 +35,7 @@ def prepare_data(d, drugFlag):
 		print(ts.shape)
 		temp = drugs[d]
 		return np.hstack((ts, np.tile(temp,(ts.shape[0],1))))
-	else:	
+	else:
 		temp = targets[d]
 		return np.hstack((np.tile(temp,(ds.shape[0],1)), ds))
 
@@ -50,7 +52,12 @@ def model_predictions(dataset, x, names, data):
 		data["predictions"].append(r)
 	return data
 
-	
+@app.route("/vishesh", methods=["GET"])
+def vishesh():
+	response =flask.jsonify({"hello" : 123})
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
+
 
 @app.route("/predict", methods=["POST"])
 def predict():
@@ -58,28 +65,30 @@ def predict():
 	# view
 	global drugs, targets
 	data = {"success": False}
-	
 
-	# print(flask.request.form)
-	# print(flask.request.json)
+
+	print(flask.request.form)
+	print(flask.request.json)
 
 	if flask.request.method == "POST":
-		if flask.request.form.get("drug"):
-			drug = flask.request.form["drug"]
+		if flask.request.json.get("drug"):
+			drug = flask.request.json["drug"]
 			print(drug)
 			dataset = prepare_data(drug, True)
 			print(dataset.shape)
 			data = model_predictions(dataset, drug, list(targets.keys()), data)
 
-		elif flask.request.form.get("target"):
+		elif flask.request.json.get("target"):
 			# read the image in PIL format
-			target = flask.request.form["target"]
+			target = flask.request.json["target"]
 			print(target)
 			dataset= prepare_data(target, False)
 			data = model_predictions(dataset, target, list(drugs.keys()), data)
 		data["success"] = True
 
-	return flask.jsonify(data)
+	response = flask.jsonify(data)
+	response.headers.add('Access-Control-Allow-Origin', '*')
+	return response
 
 # if this is the main thread of execution first load the model and
 # then start the server
@@ -87,4 +96,4 @@ if __name__ == "__main__":
 	print(("* Loading Keras model and Flask starting server..."
 		"please wait until server has fully started"))
 	init()
-	app.run()
+	app.run(host='0.0.0.0', port='5000')

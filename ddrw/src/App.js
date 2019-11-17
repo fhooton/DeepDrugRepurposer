@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import "./App.css";
 import data from "./data/searchbar.json";
@@ -23,6 +24,16 @@ function App() {
   };
   const getPredictions = (id, type) => {
     console.log(id, type);
+    const url = "http://35.237.223.152:5000/predict";
+    var predictions;
+    const param = {}
+    param[type] = id
+    console.log(param)
+    axios
+      .post(url, param)
+      .then(result => console.log(result))
+      .catch(err => console.log(err));
+    console.log(predictions);
   };
   return (
     <div className="container-fluid">
