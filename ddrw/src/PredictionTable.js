@@ -1,7 +1,7 @@
 import _ from "lodash";
 import React, { useState } from "react";
 import { Table } from "semantic-ui-react";
-export const PredictionsTable = ({ predictions }) => {
+export const PredictionsTable = ({ predictions, type }) => {
   console.log({ predictions });
   const [state, setState] = useState({
     column: null,
@@ -31,14 +31,16 @@ export const PredictionsTable = ({ predictions }) => {
   const { column, data, direction } = state;
 
   return (
-    <Table sortable celled fixed>
+    // <div style={{ }}>
+    <Table sortable celled fixed selectable>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell
             sorted={column === "label" ? direction : null}
             onClick={handleSort("label")}
           >
-            Label
+            {type === "drug" && "Target ID"}
+            {type === "target" && "Drug ID"}
           </Table.HeaderCell>
           <Table.HeaderCell
             sorted={column === "probability" ? direction : null}
@@ -64,5 +66,6 @@ export const PredictionsTable = ({ predictions }) => {
         ))}
       </Table.Body>
     </Table>
+    // </div>
   );
 };

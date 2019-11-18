@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { Header, Icon, Input, List } from "semantic-ui-react";
 import "./App.css";
 import data from "./data/searchbar.json";
 import { PredictionsTable } from "./PredictionTable";
@@ -18,7 +19,7 @@ function App() {
   const fetchData = value => {
     setSearchInput(value);
     setPredictions([]);
-    if (value.trim() == "") {
+    if (value.trim() === "") {
       setResults([]);
     } else {
       const tmp = filterData(value).slice(0, 15);
@@ -40,16 +41,24 @@ function App() {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 ">
-          <input
-            className="form-control"
+        <Header as="h1" icon textAlign="center" className="mx-auto my-4 ">
+          <Icon name="dna" size="tiny" />
+          <Header.Content>Deep Drug Repurposer</Header.Content>
+        </Header>
+      </div>
+
+      <div className="row">
+        <div className="col-12 mb-1">
+          <Input
+            fluid
+            size="large"
             placeholder="Enter a drug or target name"
             value={searchInput}
             onChange={event => fetchData(event.target.value)}
           />
         </div>
       </div>
-      <ul className="list-group list-group-flush">
+      <List size="small">
         {results.map((item, index) => (
           <SearchCards
             item={item}
@@ -63,9 +72,12 @@ function App() {
           //   {(item.id, item.name, item.repr)}
           // </li>
         ))}
-      </ul>
+      </List>
       {predictions.predictions && predictions.predictions.length > 0 && (
-        <PredictionsTable predictions={predictions.predictions} />
+        <PredictionsTable
+          predictions={predictions.predictions}
+          type={results[0].Type}
+        />
       )}
       {/* {predictions.predictions && predictions.predictions[0].label} */}
     </div>
