@@ -67,21 +67,21 @@ def predict():
 	data = {"success": False}
 
 
-	print(flask.request.form)
-	print(flask.request.json)
+	# print(flask.request.form)
+	# print(flask.request.json)
 
 	if flask.request.method == "POST":
 		if flask.request.json.get("drug"):
 			drug = flask.request.json["drug"]
-			print(drug)
+			# print(drug)
 			dataset = prepare_data(drug, True)
-			print(dataset.shape)
+			# print(dataset.shape)
 			data = model_predictions(dataset, drug, list(targets.keys()), data)
 
 		elif flask.request.json.get("target"):
 			# read the image in PIL format
 			target = flask.request.json["target"]
-			print(target)
+			# print(target)
 			dataset= prepare_data(target, False)
 			data = model_predictions(dataset, target, list(drugs.keys()), data)
 		data["success"] = True
