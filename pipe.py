@@ -114,6 +114,9 @@ class Data:
 		data['d_enc'] = self.encode_labels(data.drug_fingerprint.tolist())
 		data['t_enc'] = self.encode_labels(data[target_col].tolist())
 
+		data['d_len'] = data.d_enc.apply(len)
+		data['t_len'] = data.t_enc.apply(len)
+
 		data['d_enc_p'] = self.pad_inputs(data.d_enc.tolist())
 		data['t_enc_p'] = self.pad_inputs(data.t_enc.tolist())
 
