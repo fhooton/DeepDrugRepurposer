@@ -5,4 +5,4 @@ supplimentary_data/
 .DS_Store
 dataset_v*
 *.svg
-
+.vscode/*
