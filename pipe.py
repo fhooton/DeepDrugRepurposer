@@ -11,8 +11,10 @@ vfngrfile = 'data/val_fingerprints.pkl'
 
 class Data:
 
-	def __init__(self):
+	def __init__(self, use_balanced_padding=True, use_fingerprint_enc=True):
 		self.load_maps()
+		self.use_balanced_padding = use_balanced_padding
+		self.use_fingerprint_enc = use_fingerprint_enc
 
 
 	def load_maps(self):
@@ -44,6 +46,7 @@ class Data:
 
 		data = data.merge(self.drug_map, how='left', on='drug_id').merge(self.target_map, how='left', on='target_id')
 		data = data[(data.drug_fingerprint.notnull()) & (data.target_amino_code.notnull()) & (data.target_gene_code.notnull())]
+		data = data[data.drug_fingerprint != 'nan']
 
 		return data[['drug_id', 'target_id', 'drug_fingerprint', 'target_gene_code', 'target_amino_code']]
 
@@ -55,6 +58,7 @@ class Data:
 
 		data = data.merge(self.drug_map, how='left', on='drug_id').merge(self.target_map, how='left', on='target_id')
 		data = data[(data.drug_fingerprint.notnull()) & (data.target_amino_code.notnull()) & (data.target_gene_code.notnull())]
+		data = data[data.drug_fingerprint != 'nan']
 
 		return data[['drug_id', 'target_id', 'drug_fingerprint', 'target_gene_code', 'target_amino_code']]
 
@@ -64,6 +68,8 @@ class Data:
 		if l[0].count(' ') == 0:
 			vocab = list(set([i for j in l for i in j]))
 		else:
+			if self.use_fingerprint_enc:
+				return [[int(i) for i in j.replace(' ', '')] for j in l]
 			vocab = list(set([i for j in l for i in j.split()]))
 
 		
@@ -78,14 +84,17 @@ class Data:
 		return encoding
 
 
-	def pad_inputs(self, inputs, balanced=True):
+	def pad_inputs(self, inputs):
 		maxlen = max(len(i) for i in inputs)
 
-		if balanced:
-			padded = [int( (maxlen - len(i)) / 2 ) * [-1] + i.tolist() + int( (maxlen - len(i)) / 2 ) * [-1] for i in inputs]
+		if not isinstance(inputs[0], list):
+			inputs = [i.tolist() for i in inputs]
+
+		if self.use_balanced_padding:
+			padded = [int( (maxlen - len(i)) / 2 ) * [-1] + i + int( (maxlen - len(i)) / 2 ) * [-1] for i in inputs]
 			padded = [i + (maxlen - len(i)) * [-1] for i in padded]
 		else:
-			padded = [i.tolist() + (maxlen - len(i)) * [-1] for i in inputs]
+			padded = [i + (maxlen - len(i)) * [-1] for i in inputs]
 
 		return padded
 
@@ -111,6 +120,7 @@ class Data:
 					'fingerprint' : 'drug_fingerprint'})
 
 			val = val[(val.drug_fingerprint.notnull()) & (val.target_amino_code.notnull())]
+			val = val[val.drug_fingerprint != 'nan']
 
 			val.at[val[val['IC50 (nM)'].apply(np.log) < thresh].index, 'label'] = 1
 			val.at[val[val['IC50 (nM)'].apply(np.log) >= thresh].index, 'label'] = 0
@@ -134,13 +144,6 @@ class Data:
 
 		return data
 
-
-
-
-
-# Load Data
-# Select Samples
-# Transform columns
 
 if __name__ == '__main__':
 	d = Data()
