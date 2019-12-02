@@ -84,7 +84,7 @@ class Data:
 		return [i.tolist() + (maxlen - len(i)) * [-1] for i in inputs]
 
 
-	def load_conv_train(self, thresh = 5):
+	def load_conv_train(self, thresh = 5, is_amino = True):
 		drugbank = self.load_drugbank()
 		drugbank['label'] = 1
 
@@ -94,23 +94,29 @@ class Data:
 		train = pd.concat([drugbank, ns], axis=0, ignore_index=True,sort=False)
 		train['set'] = 'train'
 
-		val = pd.read_pickle(valfile)
-		fgrprints = pd.read_pickle(vfngrfile)
+		if is_amino:
+			target_col = 'target_amino_code'
 
-		val = val.merge(fgrprints, how='left', left_on='pubchem_id', right_on='cid') \
-			.rename(columns={'BindingDB Target Chain  Sequence' : 'target_amino_code',
-				'fingerprint' : 'drug_fingerprint'})
+			val = pd.read_pickle(valfile)
+			fgrprints = pd.read_pickle(vfngrfile)
 
-		val = val[(val.drug_fingerprint.notnull()) & (val.target_amino_code.notnull())]
+			val = val.merge(fgrprints, how='left', left_on='pubchem_id', right_on='cid') \
+				.rename(columns={'BindingDB Target Chain  Sequence' : 'target_amino_code',
+					'fingerprint' : 'drug_fingerprint'})
 
-		val.at[val[val['IC50 (nM)'].apply(np.log) < thresh].index, 'label'] = 1
-		val.at[val[val['IC50 (nM)'].apply(np.log) >= thresh].index, 'label'] = 0
-		val = val[['drug_fingerprint', 'target_amino_code', 'label']]
-		val['set'] = 'val'
+			val = val[(val.drug_fingerprint.notnull()) & (val.target_amino_code.notnull())]
 
-		data = pd.concat([train[['drug_fingerprint', 'target_amino_code', 'label', 'set']], val])
+			val.at[val[val['IC50 (nM)'].apply(np.log) < thresh].index, 'label'] = 1
+			val.at[val[val['IC50 (nM)'].apply(np.log) >= thresh].index, 'label'] = 0
+			val = val[['drug_fingerprint', 'target_amino_code', 'label']]
+			val['set'] = 'val'
 
-		target_col = 'target_amino_code'
+			data = pd.concat([train[['drug_fingerprint', 'target_amino_code', 'label', 'set']], val])
+
+		else:
+			target_col = 'target_gene_code'
+			data = train[['drug_fingerprint', 'target_gene_code', 'label', 'set']].copy()
+
 		data['d_enc'] = self.encode_labels(data.drug_fingerprint.tolist())
 		data['t_enc'] = self.encode_labels(data[target_col].tolist())
 
@@ -134,4 +140,5 @@ if __name__ == '__main__':
 	d = Data()
 	# print(d.drug_map)
 	# print(d.target_map)
-	data = d.load_conv_train()
+	data = d.load_conv_train(is_amino=False)
+	print(data.head())
