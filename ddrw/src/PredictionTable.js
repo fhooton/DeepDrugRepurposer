@@ -39,8 +39,8 @@ export const PredictionsTable = ({ predictions, type }) => {
             sorted={column === "label" ? direction : null}
             onClick={handleSort("label")}
           >
-            {type === "drug" && "Target ID"}
-            {type === "target" && "Drug ID"}
+            {type === "drug" && "Target Name"}
+            {type === "target" && "Drug Name"}
           </Table.HeaderCell>
           <Table.HeaderCell
             sorted={column === "probability" ? direction : null}

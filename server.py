@@ -19,13 +19,15 @@ drugs = None
 targets = None
 ts = None
 ds = None
+rev_dict = None
 
 def init():
-	global model, graph, drugs, targets, ts, ds
+	global model, graph, drugs, targets, ts, ds, rev_dict
 	model = load_model('DenseModel_v1.h5')
 	graph = tf.get_default_graph()
 	drugs = pickle.load(open('EmbedDict_drug.pkl', 'rb'))
 	targets= pickle.load(open('EmbedDict_target.pkl', 'rb'))
+	rev_dict = pickle.load(open('id_name.pkl', 'rb'))
 	ds = np.array(list(drugs.values()))
 	ts = np.array(list(targets.values()))
 
@@ -41,23 +43,17 @@ def prepare_data(d, drugFlag):
 
 def model_predictions(dataset, x, names, data):
 	data["requestID"] = x
+	global rev_dict
 	with graph.as_default():
 		y_preds = model.predict(dataset)
 	results = [1 if y[0]>=0.5 else 0 for y in y_preds]
-	predictions = [[names[i], results[i], y_preds[i][0]] for i in range(0, len(y_preds))]
+	predictions = [[rev_dict[names[i]], results[i], y_preds[i][0]] for i in range(0, len(y_preds))]
 	predictions = sorted(predictions, key=lambda x: x[2], reverse=True)
 	data["predictions"] = []
 	for val in predictions:
 		r = {"label": val[0], "result": val[1], "probability" : float(val[2])}
 		data["predictions"].append(r)
 	return data
-
-@app.route("/vishesh", methods=["GET"])
-def vishesh():
-	response =flask.jsonify({"hello" : 123})
-	response.headers.add('Access-Control-Allow-Origin', '*')
-	return response
-
 
 @app.route("/predict", methods=["POST"])
 def predict():
