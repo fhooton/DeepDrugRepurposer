@@ -78,10 +78,16 @@ class Data:
 		return encoding
 
 
-	def pad_inputs(self, inputs):
+	def pad_inputs(self, inputs, balanced=True):
 		maxlen = max(len(i) for i in inputs)
 
-		return [i.tolist() + (maxlen - len(i)) * [-1] for i in inputs]
+		if balanced:
+			padded = [int( (maxlen - len(i)) / 2 ) * [-1] + i.tolist() + int( (maxlen - len(i)) / 2 ) * [-1] for i in inputs]
+			padded = [i + (maxlen - len(i)) * [-1] for i in padded]
+		else:
+			padded = [i.tolist() + (maxlen - len(i)) * [-1] for i in inputs]
+
+		return padded
 
 
 	def load_conv_train(self, thresh = 5, is_amino = True):
@@ -111,7 +117,7 @@ class Data:
 			val = val[['drug_fingerprint', 'target_amino_code', 'label']]
 			val['set'] = 'val'
 
-			data = pd.concat([train[['drug_fingerprint', 'target_amino_code', 'label', 'set']], val])
+			data = pd.concat([train[['drug_fingerprint', 'target_amino_code', 'label', 'set']], val], ignore_index=True, sort=False)
 
 		else:
 			target_col = 'target_gene_code'
